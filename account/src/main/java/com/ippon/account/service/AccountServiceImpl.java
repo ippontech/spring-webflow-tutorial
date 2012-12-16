@@ -2,19 +2,19 @@ package com.ippon.account.service;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import com.ippon.account.dao.AccountDaoService;
 import com.ippon.account.domain.Account;
 import com.ippon.account.domain.Address;
 
-@ApplicationScoped
-@Named("accountService")
+@Controller("accountService")
+@Scope("singleton")
 public class AccountServiceImpl extends BaseEntityServiceImpl<Account, AccountDaoService> implements AccountService {
 
-  @Inject
+  @Autowired
   private AccountDaoService accountDaoService;
 
   @Override

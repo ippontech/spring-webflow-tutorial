@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.ippon.account.domain.Address_;
@@ -22,23 +19,8 @@ public class AddressSearchForm implements Serializable {
 
   private String columnValue;
 
-  @Inject
-  @ApplicationScoped
-  @Named("addressService")
+  @Autowired
   private transient AddressService addressService;
-
-  // @Produces
-  // AddressSearchForm foo(@Specializes @New AddressSearchForm
-  // addressSearchForm) {
-  // }
-
-  //
-  // @Produces
-  // @A
-  // public AddressService getAddressService(@New AddressService addressService)
-  // {
-  // this.addressService = addressService;
-  // }
 
   @ModelAttribute("columnNames")
   public List<SelectColumn> getColumnNames() {

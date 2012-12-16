@@ -2,8 +2,6 @@ package com.ippon.account.dao;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -14,14 +12,16 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.SingularAttribute;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
 import com.ippon.account.domain.Account;
 import com.ippon.account.domain.Account_;
 import com.ippon.account.domain.Address;
 import com.ippon.account.domain.Address_;
 
-@ApplicationScoped
-@Named
-// @QualifierService("addressDaoService")
+@Controller("addressDaoService")
+@Scope("singleton")
 public class AddressDaoServiceImpl extends BaseEntityDaoServiceImpl<Address> implements AddressDaoService {
 
   public AddressDaoServiceImpl() {

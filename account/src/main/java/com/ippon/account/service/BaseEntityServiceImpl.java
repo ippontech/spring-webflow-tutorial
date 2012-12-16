@@ -3,9 +3,8 @@ package com.ippon.account.service;
 import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.MessageSource;
@@ -59,7 +58,7 @@ public abstract class BaseEntityServiceImpl<E extends BaseEntity, F extends Base
 
   protected abstract E getNew();
 
-  @Inject
-  @Named("messageSource")
+  @Autowired
+  @Qualifier("messageSource")
   private MessageSource messageSource;
 }
