@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/webflow
+		http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+  <persistence-context />
+
+  <!-- saved into flowScope -->
+  <input name="readOnly"  type="boolean" />
+  <input name="isCreation"  type="boolean" />
+  <input name="account" />
+
+  <on-start>
+    <evaluate expression="false" result="flowScope.isEntitySaved" />
+  </on-start>
+
+  <decision-state id="start">
+    <if test="isCreation" then="createAccount" else="editAccount"></if>
+  </decision-state>
+
+  <action-state id="createAccount">
+    <evaluate expression="accountService.newWithDefaults" result="account" />
+    <transition to="editAccount"/>
+  </action-state>
+
+  <view-state id="editAccount" view="editAccount" model="account">
+    <transition on="saveAccount" to="save" />
+    <transition on="addAddress" to="editAccount" validate="false">
+      <evaluate expression="accountService.addNewAddress(account)" />
+      <render fragments="addressesPanel" />
+    </transition>
+    <transition on="deleteAddress" to="editAccount" validate="false">
+      <evaluate expression="accountService.deleteAddress(account, requestParameters.addressIdx)" />
+      <render fragments="addressesPanel" />
+    </transition>
+    <transition on="backListAccounts" to="back" validate="false">
+      <evaluate expression="accountService.refresh(account)" />
+    </transition>
+  </view-state>
+
+  <view-state id="save" view="confirmSave" popup="true">
+    <transition on="save" to="editAccount" validate="false">
+      <evaluate expression="accountService.save(account, messageContext, 'account.info.save')" />
+      <evaluate expression="true" result="flowScope.isEntitySaved" />
+    </transition>
+    <transition on="cancel" to="editAccount" />
+  </view-state>
+
+  <decision-state id="endEditAccount">
+    <if test="isCreation" then="backAccountCommitTest" else="backListAccountsCommitTest" />
+  </decision-state>
+
+  <decision-state id="backAccountCommitTest">
+    <if test="flowScope.isEntitySaved" then="backAccountCommit" else="backAccountNoCommit" />
+  </decision-state>
+
+  <decision-state id="backListAccountsCommitTest">
+    <if test="flowScope.isEntitySaved" then="backListAccountsCommit" else="backListAccountsNoCommit" />
+  </decision-state>
+
+
+  <end-state id="backListAccountsCommit" view="externalRedirect:contextRelative:/listAccounts.do" commit="true" />
+  <end-state id="backAccountCommit" view="externalRedirect:contextRelative:/menu.do" commit="true" />
+  <end-state id="backListAccountsNoCommit" view="externalRedirect:contextRelative:/listAccounts.do" commit="false" />
+  <end-state id="backAccountNoCommit" view="externalRedirect:contextRelative:/menu.do" commit="false" />
+  <global-transitions>
+    <transition on="back" to="endEditAccount" validate="false">
+      <evaluate expression="accountService.refresh(account)" />
+    </transition>
+  </global-transitions>
+</flow>

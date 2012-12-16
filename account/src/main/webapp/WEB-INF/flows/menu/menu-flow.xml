@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<flow xmlns="http://www.springframework.org/schema/webflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/webflow
+		http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+  <persistence-context />
+
+  <view-state id="menu" view="menu">
+    <transition on="enabledAccounts" to="listAccounts">
+      <set name="flowScope.isEnabled" type="boolean" value="true" />
+    </transition>
+    <transition on="disabledAccounts" to="listAccounts">
+      <set name="flowScope.isEnabled" type="boolean" value="false" />
+    </transition>
+    <transition on="addAccount" to="addAccount" />
+    <transition on="searchAddresses" to="searchAddresses" />
+  </view-state>
+
+  <end-state id="listAccounts" view="externalRedirect:contextRelative:/listAccounts.do?isEnabled=#{flowScope.isEnabled}" />
+  
+  <end-state id="addAccount" view="externalRedirect:contextRelative:/editAccount.do?isCreation=true&amp;readOnly=false"/>
+
+  <end-state id="searchAddresses" view="externalRedirect:contextRelative:/address.do" />
+
+  <end-state id="home" view="externalRedirect:contextRelative:/home.do" />
+
+  <global-transitions>
+    <transition on="backHome" to="home" />
+  </global-transitions>
+
+</flow>

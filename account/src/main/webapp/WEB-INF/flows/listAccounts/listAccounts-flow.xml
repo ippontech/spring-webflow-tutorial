@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<flow xmlns="http://www.springframework.org/schema/webflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/webflow
+		http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+  <persistence-context />
+
+  <input name="isEnabled" type="boolean"/>
+
+  <!-- <decision-state id="start"> -->
+  <!-- <if test="flowScope.accounts.size == 0" then="noAccount" else="listAccounts"/> -->
+  <!-- </decision-state> -->
+
+  <view-state id="listAccounts" view="listAccounts">
+    <on-entry>
+     <evaluate expression="accountService.getAll(isEnabled)" result="flowScope.accounts" />
+    </on-entry>
+    <transition on="edit" to="editAccount">
+      <set name="flowScope.readOnly" value="false" />
+      <set name="flowScope.account" value="accountService.get(requestParameters.accountId)" />
+    </transition>
+    <transition on="view" to="editAccount">
+      <set name="flowScope.readOnly" value="true" />
+      <set name="flowScope.account" value="accountService.get(requestParameters.accountId)" />
+    </transition>
+    <transition on="remove" to="removeAccount">
+      <set name="flowScope.account" value="accountService.get(requestParameters.accountId)" />
+    </transition>
+  </view-state>
+
+  <subflow-state id="editAccount" subflow="editAccount">
+    <input name="readOnly" value="flowScope.readOnly" required="true" />
+    <input name="account" value="flowScope.account" required="true" />
+    <input name="isCreation" value="false" required="true" />
+    <transition on="backListAccountsCommit" to="listAccounts" />
+    <transition on="backListAccountsNoCommit" to="listAccounts" />
+  </subflow-state>
+
+  <action-state id="removeAccount">
+    <evaluate expression="accountService.remove(account, messageContext, 'account.info.remove')" />
+    <transition to="listAccounts" />
+  </action-state>
+
+  <end-state id="menu" view="externalRedirect:contextRelative:/menu.do" />
+
+  <global-transitions>
+    <transition on="backAccount" to="menu" />
+  </global-transitions>
+</flow>

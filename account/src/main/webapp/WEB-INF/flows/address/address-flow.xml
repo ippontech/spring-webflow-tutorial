@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<flow xmlns="http://www.springframework.org/schema/webflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+  <persistence-context />
+<var name="addressSearchForm" class="com.ippon.account.web.AddressSearchForm"/>
+  <view-state id="address" view="address" model="addressSearchForm">
+
+  
+    <transition on="searchAddresses" to="address">
+      <evaluate expression="addressService.getBy(addressSearchForm.columnName, addressSearchForm.columnValue)" result="flowScope.addresses" />
+      <render fragments="addressesPanel" />
+    </transition>
+  </view-state>
+
+  <end-state id="menu" view="externalRedirect:contextRelative:/menu.do" />
+
+  <global-transitions>
+    <transition on="backAccount" to="menu" />
+  </global-transitions>
+
+</flow>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">     
+        
+    <persistence-context />        
+        
+    <view-state id="home" view="home">
+        <transition on="manageAccounts" to="viewManageAccounts" />
+        <transition on="end" to="end" />
+    </view-state>            
+  
+    <view-state id="error" view="error">
+        <transition to="home" />
+    </view-state>
+    <!-- 
+    <action-state id="login">    
+        <secured attributes="ROLE_USER"/>        
+        <evaluate expression="accountServiceAction.getAccount"/>
+        <transition on="success" to="loginSuccess" />
+        <transition on="error" to="error" />
+    </action-state>
+
+    <view-state id="loginSuccess" view="account/loginSuccess" >
+        <transition on="loginEnd" to="home" />
+    </view-state>
+        -->
+    
+    <end-state id="viewManageAccounts" view="externalRedirect:contextRelative:/menu.do" />    
+    <!-- 
+    <on-end>
+        <evaluate expression="cartService.clearShoppingCart()" />
+    </on-end>
+        -->
+</flow>        
