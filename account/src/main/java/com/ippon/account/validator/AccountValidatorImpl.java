@@ -4,7 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -14,15 +16,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.validation.ValidationContext;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 
 import com.ippon.account.dao.AccountDaoService;
 import com.ippon.account.domain.Account;
 import com.ippon.account.service.AccountService;
 
-@Controller("accountValidator")
-@Validated
+@ApplicationScoped
+@Named("accountValidator")
 public class AccountValidatorImpl extends BaseEntityValidatorImpl<Account, AccountService, AccountDaoService> implements AccountValidator {
 
   private final Logger logger = Logger.getLogger(AccountValidator.class);
