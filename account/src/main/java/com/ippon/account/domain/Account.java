@@ -56,9 +56,13 @@ public class Account extends BaseEntity implements Serializable {
   @NotNull
   private boolean enabled;
 
+  /**
+   * Remove of CascadeType.ALL because doesn't work with the refresh()
+   * https://hibernate.onjira.com/browse/HHH-2643
+   **/
   @NotNull
   @Valid
-  @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "account")
+  @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE }, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "account")
   private List<Address> addresses;
 
   public String getUsername() {

@@ -23,7 +23,7 @@
     </c:forEach>
     <tr>
     <td colspan="6">
-    <fmt:message key="listAccounts.account.title" />
+    <h2><fmt:message key="listAccounts.account.title" /></h2>
     </td>
     </tr>
     <c:forEach var="varAccount" items="${accounts}">
@@ -49,8 +49,11 @@
         </tr>
     </c:forEach>
     <tr>
+    <td colspan="6" style="height: 20px" />
+    </tr>
+    <tr>
     <td colspan="6">
-    <fmt:message key="listAccounts.address.title" />
+    <h2><fmt:message key="listAccounts.address.title" /></h2>
     </td>
     <c:forEach var="varAccount" items="${accounts}" varStatus="idxAccount">
       <c:forEach var="varAddress" items="${varAccount.addresses}" varStatus="idxAddress">
@@ -79,4 +82,6 @@
       </c:forEach>
     </c:forEach>    
 </table>
+<br />
+<br />
 <a href="${flowExecutionUrl}&_eventId=backAccount"><fmt:message key="listAccounts.back" /></a>.

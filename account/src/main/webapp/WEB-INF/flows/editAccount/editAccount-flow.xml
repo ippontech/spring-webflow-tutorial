@@ -4,10 +4,12 @@
 
   <persistence-context />
 
+<!-- <var name="flowScope.account" class=""/> -->
+
   <!-- saved into flowScope -->
   <input name="readOnly"  type="boolean" />
   <input name="isCreation"  type="boolean" />
-  <input name="account" />
+  <input name="account"/>
 
   <on-start>
     <evaluate expression="false" result="flowScope.isEntitySaved" />
@@ -18,7 +20,7 @@
   </decision-state>
 
   <action-state id="createAccount">
-    <evaluate expression="accountService.newWithDefaults" result="account" />
+    <evaluate expression="accountService.newWithDefaults" result="flowScope.account" />
     <transition to="editAccount"/>
   </action-state>
 
@@ -32,9 +34,7 @@
       <evaluate expression="accountService.deleteAddress(account, requestParameters.addressIdx)" />
       <render fragments="addressesPanel" />
     </transition>
-    <transition on="backListAccounts" to="back" validate="false">
-      <evaluate expression="accountService.refresh(account)" />
-    </transition>
+    <transition on="backListAccounts" to="back" validate="false" />
   </view-state>
 
   <view-state id="save" view="confirmSave" popup="true">
