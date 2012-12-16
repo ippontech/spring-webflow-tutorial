@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Set;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.ConstraintViolation;
@@ -21,7 +21,7 @@ import com.ippon.account.dao.AccountDaoService;
 import com.ippon.account.domain.Account;
 import com.ippon.account.service.AccountService;
 
-@ApplicationScoped
+@SessionScoped
 @Named("accountValidator")
 public class AccountValidatorImpl extends BaseEntityValidatorImpl<Account, AccountService, AccountDaoService> implements AccountValidator {
 
@@ -51,8 +51,8 @@ public class AccountValidatorImpl extends BaseEntityValidatorImpl<Account, Accou
     /**
      * TO_DO: Il serait finalement mieux de faire de la validation champs par
      * champs (avec ValidationUtils, EmailValidator....), le système actuel est
-     * trop générique et ne fonctionne pas très bien comme le cssErrorClass
-     * qui ne marche pas sur tous les champs
+     * trop générique et ne fonctionne pas très bien comme le cssErrorClass qui
+     * ne marche pas sur tous les champs
      */
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     Validator validator = factory.getValidator();
