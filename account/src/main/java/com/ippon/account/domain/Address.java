@@ -1,16 +1,15 @@
 package com.ippon.account.domain;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "address")
@@ -18,19 +17,24 @@ public class Address extends BaseEntity {
 
   private static final long serialVersionUID = 1L;
 
-  @NotEmpty
+  @Column(name = "line1", nullable = false)
   private String line1;
+
+  @Column(name = "line2")
   private String line2;
-  @NotEmpty
+
   @Pattern(regexp = "\\d\\d\\d\\d\\d")
   @Length(min = 5, max = 5)
-  private String zipcode;
-  @NotEmpty
+  @Column(name = "zip_code", nullable = false)
+  private String zipCode;
+
+  @Column(name = "city", nullable = false)
   private String city;
-  @NotEmpty
+
+  @Column(name = "state", nullable = false)
   private String state;
-  @NotNull
-  @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+
+  @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
   @JoinColumn(name = "account", nullable = false)
   private Account account;
 
@@ -66,12 +70,12 @@ public class Address extends BaseEntity {
     this.state = state;
   }
 
-  public String getZipcode() {
-    return zipcode;
+  public String getZipCode() {
+    return zipCode;
   }
 
-  public void setZipcode(String zipcode) {
-    this.zipcode = zipcode;
+  public void setZipCode(String zipCode) {
+    this.zipCode = zipCode;
   }
 
   public Account getAccount() {
@@ -110,7 +114,7 @@ public class Address extends BaseEntity {
     builder.append("\n");
 
     builder.append("ZIP        : ");
-    builder.append(this.getZipcode());
+    builder.append(this.getZipCode());
     builder.append("\n");
 
     return builder.toString();

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -19,7 +20,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author ebrigand
@@ -30,20 +30,20 @@ public class Account extends BaseEntity implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  @NotEmpty
+  @Column(name = "user_name", nullable = false)
   private String username;
 
-  @NotEmpty
+  @Column(name = "first_name", nullable = false)
   private String firstname;
 
-  @NotEmpty
+  @Column(name = "last_name", nullable = false)
   private String lastname;
 
-  @NotEmpty
+  @Column(name = "password", nullable = false)
   private String password;
 
-  @NotEmpty
   @Email
+  @Column(name = "email", nullable = false)
   private String email;
 
   @Transient
@@ -51,9 +51,10 @@ public class Account extends BaseEntity implements Serializable {
   private String desactivationDateStr;
 
   @Future
+  @Column(name = "desactivation_date")
   private Date desactivationDate;
 
-  @NotNull
+  @Column(name = "enabled", nullable = false)
   private boolean enabled;
 
   /**

@@ -36,27 +36,26 @@
            
     <bean id="entityManagerFactory"
         class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="packagesToScan" value="com.ippon.account.domain" />
-        <property name="persistenceUnitName" value="account" />        
+        <property name="packagesToScan" value="${hibernate.entityManagerFactory.packagesToScan}" />
+        <property name="persistenceUnitName" value="customPizzaUnitName" />        
         <property name="dataSource" ref="dataSource" />
         <property name="jpaVendorAdapter">
             <bean
                 class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="database" value="${hibernate.database}" />
-                <property name="showSql" value="${hibernate.show_sql}" />
-                <property name="generateDdl" value="${hibernate.generate_ddl}" />
+                <property name="database" value="${hibernate.jpaVendorAdapter.database}" />
+                <property name="showSql" value="${hibernate.jpaVendorAdapter.showSql}" />
+                <property name="generateDdl" value="${hibernate.jpaVendorAdapter.generateDdl}" />
             </bean>
         </property>
         <property name="jpaProperties">
-			<props>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-				<prop key="hibernate.ejb.naming_strategy">${hibernate.ejb.naming_strategy}</prop>
-				<prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop>
-			</props>
-		</property>
+            <props>
+                <prop key="hibernate.show_sql">${hibernate.jpaProperties.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.jpaProperties.format_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.jpaProperties.hbm2ddl.auto}</prop>
+                <prop key="hibernate.dialect">${hibernate.jpaProperties.dialect}</prop>
+                <prop key="hibernate.cache.provider_class">${hibernate.jpaProperties.cache.provider_class}</prop>
+            </props>
+        </property>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" > 
