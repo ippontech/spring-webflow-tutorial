@@ -14,4 +14,4 @@ It’s a simple web application, the features are:
 
 URL access: http://localhost:8080/account/
 
-Another project, a simple Stateless web based app using Spring RESTful, Spring Integration, Long Polling (DeferredResult): https://github.com/ebrigand/RSSLiker
+Another project, a simple Stateless web based app using Spring RESTful, Spring Integration, Long Polling (DeferredResult with Spring 3.2): https://github.com/ebrigand/RSSLiker

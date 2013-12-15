@@ -13,6 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ippon.account.domain.Account;
 import com.ippon.account.domain.Account_;
 
+/**
+ * DAO Layer implementation to manage accounts
+ * 
+ * @author ebrigand
+ * 
+ */
 @Repository("accountDaoService")
 public class AccountDaoServiceImpl extends BaseEntityDaoServiceImpl<Account> implements AccountDaoService {
 
@@ -20,6 +26,11 @@ public class AccountDaoServiceImpl extends BaseEntityDaoServiceImpl<Account> imp
     super(Account.class);
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.ippon.account.dao.AccountDaoService#getAll(boolean)
+   */
   @Transactional(readOnly = true)
   @Override
   public List<Account> getAll(boolean isEnabled) {

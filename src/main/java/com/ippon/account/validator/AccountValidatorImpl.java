@@ -15,13 +15,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.binding.validation.ValidationContext;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import com.ippon.account.dao.AccountDaoService;
 import com.ippon.account.domain.Account;
 import com.ippon.account.service.AccountService;
 
-@Controller("accountValidator")
+/**
+ * Account validator implementation
+ * 
+ * @author ebrigand
+ * 
+ */
+@Service("accountValidator")
 @Scope("prototype")
 public class AccountValidatorImpl extends BaseEntityValidatorImpl<Account, AccountService, AccountDaoService> implements AccountValidator {
 
@@ -36,6 +42,12 @@ public class AccountValidatorImpl extends BaseEntityValidatorImpl<Account, Accou
     validateDesactivationDate(account, context.getMessageContext());
   }
 
+  /**
+   * Validate the desativation date, check if null and format
+   * 
+   * @param account
+   * @param messageContext
+   */
   private void validateDesactivationDate(Account account, MessageContext messageContext) {
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
     try {
@@ -47,21 +59,22 @@ public class AccountValidatorImpl extends BaseEntityValidatorImpl<Account, Accou
     }
   }
 
+  /**
+   * Generic validation of all account fields and address fields (addresses
+   * linked to the account), checking the JPA constraints.
+   * 
+   * @param account
+   * @param messageContext
+   */
   private void validateAccountFields(Account account, MessageContext messageContext) {
-    /**
-     * TO_DO: Il serait finalement mieux de faire de la validation champs par
-     * champs (avec ValidationUtils, EmailValidator....), le système actuel est
-     * trop générique et ne fonctionne pas très bien comme le cssErrorClass
-     * qui ne marche pas sur tous les champs
-     */
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     Validator validator = factory.getValidator();
     Set<ConstraintViolation<Account>> constraintViolations = validator.validate(account);
     if (constraintViolations.size() > 0) {
       for (ConstraintViolation<Account> contraintes : constraintViolations) {
-        // Cas compte
+        // Check account
         String propertyPath = contraintes.getPropertyPath().toString();
-        // Cas addresse
+        // Check addresses
         if (contraintes.getPropertyPath().toString().startsWith("addresses") && contraintes.getPropertyPath().toString().length() > 12) {
           propertyPath = contraintes.getPropertyPath().toString().substring(0, 9).concat(contraintes.getPropertyPath().toString().substring(12, contraintes.getPropertyPath().toString().length()));
         }

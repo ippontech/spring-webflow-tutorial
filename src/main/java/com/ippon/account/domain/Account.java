@@ -22,6 +22,8 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Email;
 
 /**
+ * Entity Account
+ * 
  * @author ebrigand
  */
 @Entity
@@ -107,9 +109,6 @@ public class Account extends BaseEntity implements Serializable {
   }
 
   public String getDesactivationDateStr() {
-    if (!isInitialized) {
-      initialize();
-    }
     return desactivationDateStr;
   }
 
@@ -128,6 +127,7 @@ public class Account extends BaseEntity implements Serializable {
 
   public void setDesactivationDate(Date desactivationDate) {
     this.desactivationDate = desactivationDate;
+    defineDesactivationDateStr();
   }
 
   public boolean isEnabled() {
@@ -163,11 +163,15 @@ public class Account extends BaseEntity implements Serializable {
   }
 
   @Override
-  public void initialize() {
-    super.initialize();
+  protected void initDefaultValues() {
+    defineDesactivationDateStr();
+  }
+
+  private void defineDesactivationDateStr() {
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
     if (desactivationDate != null) {
       desactivationDateStr = format.format(desactivationDate);
     }
   }
+
 }

@@ -4,12 +4,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import com.ippon.account.dao.AddressDaoService;
 import com.ippon.account.domain.Address;
 
-@Controller("addressService")
+/**
+ * Front Service Layer implementation to manage addresses
+ * 
+ * @author ebrigand
+ * 
+ */
+@Service("addressService")
 @Scope("singleton")
 public class AddressServiceImpl extends BaseEntityServiceImpl<Address, AddressDaoService> implements AddressService {
 
@@ -17,7 +23,7 @@ public class AddressServiceImpl extends BaseEntityServiceImpl<Address, AddressDa
   private AddressDaoService addressDaoService;
 
   @Override
-  protected Address getNew() {
+  public Address getNew() {
     return new Address();
   }
 

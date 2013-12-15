@@ -12,10 +12,26 @@ import org.springframework.context.MessageSource;
 import com.ippon.account.dao.BaseEntityDaoService;
 import com.ippon.account.domain.BaseEntity;
 
+/**
+ * Front Service implementation layer for common actions on entities
+ * 
+ * @author ebrigand
+ * 
+ * @param <E>
+ * @param <F>
+ */
 public abstract class BaseEntityServiceImpl<E extends BaseEntity, F extends BaseEntityDaoService<E>> implements BaseEntityService<E, F> {
 
-  @Override
-  public abstract F getDao();
+  @Autowired
+  @Qualifier("messageSource")
+  private MessageSource messageSource;
+
+  /**
+   * Create a new entity, not persisted, used for getNewWithDefaults
+   * 
+   * @return
+   */
+  protected abstract E getNew();
 
   @Override
   public void save(E entity, MessageContext messageContext, String messageKey) {
@@ -36,7 +52,8 @@ public abstract class BaseEntityServiceImpl<E extends BaseEntity, F extends Base
 
   @Override
   public E get(int id) {
-    return getDao().get(id);
+    E entity = getDao().get(id);
+    return entity;
   }
 
   @Override
@@ -46,9 +63,9 @@ public abstract class BaseEntityServiceImpl<E extends BaseEntity, F extends Base
 
   @Override
   public E getNewWithDefaults() {
-    E element = getNew();
-    element.initDefaultValues();
-    return element;
+    E entity = getNew();
+    entity.initialize();
+    return entity;
   }
 
   @Override
@@ -56,9 +73,4 @@ public abstract class BaseEntityServiceImpl<E extends BaseEntity, F extends Base
     return messageSource.getMessage(code, args, locale);
   }
 
-  protected abstract E getNew();
-
-  @Autowired
-  @Qualifier("messageSource")
-  private MessageSource messageSource;
 }

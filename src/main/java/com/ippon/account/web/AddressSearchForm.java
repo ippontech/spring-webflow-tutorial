@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.ippon.account.domain.Address_;
 import com.ippon.account.service.AddressService;
 
+/**
+ * Used in address.jsp to print all the columns name of Address class
+ * 
+ * @author ebrigand
+ * 
+ */
 public class AddressSearchForm implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -51,9 +57,7 @@ public class AddressSearchForm implements Serializable {
   }
 
   private class SelectColumn implements Serializable {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1L;
 
     private String columnLabel;
@@ -65,18 +69,22 @@ public class AddressSearchForm implements Serializable {
       this.columnValue = columnValue;
     }
 
+    @SuppressWarnings("unused")
     public String getColumnLabel() {
       return columnLabel;
     }
 
+    @SuppressWarnings("unused")
     public void setColumnLabel(String columnLabel) {
       this.columnLabel = columnLabel;
     }
 
+    @SuppressWarnings("unused")
     public String getColumnValue() {
       return columnValue;
     }
 
+    @SuppressWarnings("unused")
     public void setColumnValue(String columnValue) {
       this.columnValue = columnValue;
     }

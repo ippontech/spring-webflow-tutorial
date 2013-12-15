@@ -11,6 +11,11 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
+/**
+ * Entity Address
+ * 
+ * @author ebrigand
+ */
 @Entity
 @Table(name = "address")
 public class Address extends BaseEntity {

@@ -4,13 +4,19 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import com.ippon.account.dao.AccountDaoService;
 import com.ippon.account.domain.Account;
 import com.ippon.account.domain.Address;
 
-@Controller("accountService")
+/**
+ * Front Service Layer implementation to manage accounts
+ * 
+ * @author ebrigand
+ * 
+ */
+@Service("accountService")
 @Scope("singleton")
 public class AccountServiceImpl extends BaseEntityServiceImpl<Account, AccountDaoService> implements AccountService {
 
